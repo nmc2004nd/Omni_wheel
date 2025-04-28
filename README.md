@@ -1,4 +1,4 @@
-# Thiết kế robot Omni 4 bánh, triển khai Slam Gmapping và Navigation
+# Thiết kế robot Omni 4 bánh, triển khai SLAM Gmapping và Navigation
 
 ## Description:
 - Thiết kế và điều khiển xe 4 bánh omni một cách tương đối chính xác thông qua động học, teleop.
@@ -39,5 +39,8 @@ Thay `catkin_ws` bằng workspace ROS của bạn (ví dụ: `my_ws`, `dev_ws`, 
 - `rosrun teleop_twist_keyboard teleop_twist_keyboard.py`
 
 ### 5. Navigation
-- Ở đây nên dùng odom do gazebo cung cấp qua model ( odometry_automatic.py) để Navigation hoạt động đúng.
-- 'roslaunch omni_robot_navigation_rviz.launch'
+- Để Navigation hoạt động đúng, nên sử dụng odom do Gazebo cung cấp qua model (`odometry_automatic.py`).
+- `roslaunch car_4wd omni_robot_navigation_rviz.launch`
+
+### 6. Video demo điều khiển, Gmapping, Navigation
+[https://drive.google.com/drive/folders/1EdVYzU3YksuaCh1NoNiIrQGSO64X8s3d](https://drive.google.com/drive/folders/1EdVYzU3YksuaCh1NoNiIrQGSO64X8s3d)
