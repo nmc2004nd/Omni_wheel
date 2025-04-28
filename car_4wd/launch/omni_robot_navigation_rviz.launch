@@ -1,0 +1,31 @@
+<launch>
+  <!-- Arguments -->
+  <include file="$(find car_4wd)/launch/gazebo.launch"/>
+  <arg name="map_file" default="$(find car_4wd)/maps/map.yaml"/>
+  <arg name="move_forward_only" default="false"/>
+
+  <!-- Turtlebot3 -->
+  <!-- <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+    <arg name="model" value="waffle" />
+  </include> -->
+
+  <!-- Odometry -->
+  <!-- <node name="omni_odometry" pkg="omni_robot_gazebo" type="omni_odometry" output="screen"/> -->
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <!-- AMCL -->
+  <include file="$(find car_4wd)/launch/amcl.launch"/>
+
+  <!-- move_base -->
+  <include file="$(find car_4wd)/launch/move_base.launch">
+    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  </include>
+
+  <node name="navigation_sm" pkg="car_4wd" type="navigation_sm.py" output="screen"/>
+  
+  <!-- rviz -->
+  <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find car_4wd)/rviz/omni_robot_navigation.rviz"/>
+  
+</launch>

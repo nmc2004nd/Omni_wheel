@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+<world name="maze_map">
+
+  <!-- Người -->
+  <include>
+    <uri>model://Standing_person</uri>
+    <pose>1 0 0 0 0 0</pose> 
+  </include>
+  
+  <!-- Ánh sáng -->
+  <include>
+    <uri>model://sun</uri>
+  </include>
+
+  <!-- Ground -->
+  <include>
+    <uri>model://ground_plane</uri>
+  </include>
+
+  <!-- Maze -->
+  <model name="wooden_maze">
+    <static>true</static>
+    <link name="walls">
+
+      <!-- Hàm tạo tường: visual và collision -->
+      <!-- Tường ngoài -->
+      <!-- North -->
+      <visual name="wall_north_visual">
+        <geometry><box><size>8 0.3 1</size></box></geometry>
+        <pose>0 4 0.5 0 0 0</pose>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Wood</name></script></material>
+      </visual>
+      <collision name="wall_north_collision">
+        <geometry><box><size>8 0.3 1</size></box></geometry>
+        <pose>0 4 0.5 0 0 0</pose>
+      </collision>
+
+      <!-- South -->
+      <visual name="wall_south_visual">
+        <geometry><box><size>8 0.3 1</size></box></geometry>
+        <pose>0 -4 0.5 0 0 0</pose>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Wood</name></script></material>
+      </visual>
+      <collision name="wall_south_collision">
+        <geometry><box><size>8 0.3 1</size></box></geometry>
+        <pose>0 -4 0.5 0 0 0</pose>
+      </collision>
+
+      <!-- West -->
+      <visual name="wall_west_visual">
+        <geometry><box><size>0.3 8 1</size></box></geometry>
+        <pose>-4 0 0.5 0 0 0</pose>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Wood</name></script></material>
+      </visual>
+      <collision name="wall_west_collision">
+        <geometry><box><size>0.3 8 1</size></box></geometry>
+        <pose>-4 0 0.5 0 0 0</pose>
+      </collision>
+
+      <!-- East -->
+      <visual name="wall_east_visual">
+        <geometry><box><size>0.3 8 1</size></box></geometry>
+        <pose>4 0 0.5 0 0 0</pose>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Wood</name></script></material>
+      </visual>
+      <collision name="wall_east_collision">
+        <geometry><box><size>0.3 8 1</size></box></geometry>
+        <pose>4 0 0.5 0 0 0</pose>
+      </collision>
+
+      <!-- Tường bên trong -->
+      <!-- Inner 1 -->
+      <visual name="inner_wall_1_visual">
+        <geometry><box><size>3 0.3 1</size></box></geometry>
+        <pose>0 1 0.5 0 0 0</pose>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Wood</name></script></material>
+      </visual>
+      <collision name="inner_wall_1_collision">
+        <geometry><box><size>3 0.3 1</size></box></geometry>
+        <pose>0 1 0.5 0 0 0</pose>
+      </collision>
+
+      <!-- Inner 2 -->
+      <visual name="inner_wall_2_visual">
+        <geometry><box><size>0.3 3 1</size></box></geometry>
+        <pose>-1.5 -1 0.5 0 0 0</pose>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Wood</name></script></material>
+      </visual>
+      <collision name="inner_wall_2_collision">
+        <geometry><box><size>0.3 3 1</size></box></geometry>
+        <pose>-1.5 -1 0.5 0 0 0</pose>
+      </collision>
+
+      <!-- Inner 3 -->
+      <visual name="inner_wall_3_visual">
+        <geometry><box><size>2 0.3 1</size></box></geometry>
+        <pose>2 -2 0.5 0 0 0</pose>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Wood</name></script></material>
+      </visual>
+      <collision name="inner_wall_3_collision">
+        <geometry><box><size>2 0.3 1</size></box></geometry>
+        <pose>2 -2 0.5 0 0 0</pose>
+      </collision>
+
+      <!-- Inner 4 -->
+      <visual name="inner_wall_4_visual">
+        <geometry><box><size>0.3 2 1</size></box></geometry>
+        <pose>1.5 1.5 0.5 0 0 0</pose>
+        <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Wood</name></script></material>
+      </visual>
+      <collision name="inner_wall_4_collision">
+        <geometry><box><size>0.3 2 1</size></box></geometry>
+        <pose>1.5 1.5 0.5 0 0 0</pose>
+      </collision>
+
+    </link>
+  </model>
+</world>
+</sdf>

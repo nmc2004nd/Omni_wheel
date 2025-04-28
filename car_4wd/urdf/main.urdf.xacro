@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<robot name="omni_car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Include Macros -->
+    <xacro:include filename="rim.xacro" />
+    <xacro:include filename="sensor.xacro" />
+    <xacro:include filename="sung.xacro" />
+    <xacro:include filename="plugin.xacro" />
+    <xacro:include filename="transmission.xacro" />
+
+    <!-- Dummy Link as Root -->
+    <!-- <link name="world_link" /> -->
+
+    <!-- Base Footprint Link (Virtual Link) -->
+    <link name="base_footprint">
+        <!-- <inertial>
+            <mass value="0.0001" />
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
+        </inertial> -->
+    </link>
+
+    <!-- Joint between world_link and base_footprint -->
+    <!-- <joint name="world_to_base_footprint" type="fixed">
+        <parent link="world_link" />
+        <child link="base_footprint" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint> -->
+
+    <!-- Base Link -->
+    <link name="base_link">
+        <inertial>
+            <origin xyz="0.00026343168716178 -1.5535406294731E-11 0.00563113326253423" rpy="0 0 0" />
+            <mass value="1" />
+            <inertia ixx="0.04695" ixy="0.0" ixz="0.0" iyy="0.04695" iyz="0.0" izz="0.09385" />
+        </inertial>
+        <visual>
+            <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
+            <geometry>
+                <mesh filename="package://car_4wd/meshes/base_link.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+            </material>
+        </visual>
+        <collision>
+            <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
+            <geometry>
+                <mesh filename="package://car_4wd/meshes/base_link.STL" />
+            </geometry>
+        </collision>
+    </link>
+
+
+    <!-- Joint between base_footprint and base_link -->
+    <joint name="base_footprint_to_base_link" type="fixed">
+        <parent link="base_footprint" />
+        <child link="base_link" />
+        <origin xyz="0 0 0.0255" rpy="0 0 0" />
+    </joint>
+
+    <!-- Gazebo properties for base_link -->
+    <gazebo reference="base_link">
+        <material>Gazebo/CloudySky</material>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <kp>500000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>0.5</maxVel>
+        <fdir1>1 0 0</fdir1>
+    </gazebo>
+
+    <!-- Define All Wheels -->
+    <xacro:rim prefix="front_left" x="0.11977" y="0.12038" z="-0.0255" roll="1.5708" pitch="0"
+        yaw="-0.7854" />
+    <xacro:rim prefix="front_right" x="0.11977" y="-0.12038" z="-0.0255" roll="1.5708" pitch="0"
+        yaw="-2.3562" />
+    <xacro:rim prefix="rear_left" x="-0.11977" y="0.12038" z="-0.0255" roll="1.5708" pitch="0"
+        yaw="0.7854" />
+    <xacro:rim prefix="rear_right" x="-0.11977" y="-0.12038" z="-0.0255" roll="1.5708" pitch="0"
+        yaw="2.3562" />
+
+    <!-- Gazebo properties for rims -->
+    <gazebo reference="front_left_rim">
+        <material>Gazebo/Yellow</material>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <kp>500000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>0.5</maxVel>
+        <fdir1>1 0 0</fdir1>
+    </gazebo>
+    <gazebo reference="front_right_rim">
+        <material>Gazebo/Red</material>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <kp>500000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>0.5</maxVel>
+        <fdir1>1 0 0</fdir1>
+    </gazebo>
+    <gazebo reference="rear_left_rim">
+        <material>Gazebo/Green</material>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <kp>500000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>0.5</maxVel>
+        <fdir1>1 0 0</fdir1>
+    </gazebo>
+    <gazebo reference="rear_right_rim">
+        <material>Gazebo/Blue</material>
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <kp>500000.0</kp>
+        <kd>10.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>0.5</maxVel>
+        <fdir1>1 0 0</fdir1>
+    </gazebo>
+
+    <!-- Define Sensors -->
+    <xacro:sensor name="lidar" prefix="sensor"
+        x="-0.0071105" y="0" z="0.04625" roll="0" pitch="0" yaw="0"
+        mass="1e-5"
+        origin_x="0.0082941" origin_y="0" origin_z="-0.0085489"
+        ixx="1e-6" ixy="0.0" ixz="0.0"
+        iyy="1e-6" iyz="0.0" izz="1e-6"
+        color_r="1.0" color_g="0.5" color_b="0.0" color_a="1" />
+    <gazebo reference="sensor_lidar">
+        <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <xacro:sensor name="cam" prefix="sensor"
+        x="0.11939" y="0.0017162" z="0.089" roll="0" pitch="0" yaw="0"
+        mass="1e-5"
+        origin_x="-0.011444" origin_y="-0.001705" origin_z="-0.0001361"
+        ixx="1e-6" ixy="0.0" ixz="0.0"
+        iyy="1e-6" iyz="0.0" izz="1e-6"
+        color_r="0.5" color_g="0.0" color_b="0.5" color_a="1" />
+    <gazebo reference="sensor_cam">
+        <material>Gazebo/Purple</material>
+    </gazebo>
+
+    <xacro:sensor name="imu" prefix="sensor"
+        x="-0.10189" y="0.00012301" z="0.028139" roll="0" pitch="0" yaw="0"
+        mass="1e-5"
+        origin_x="-0.000234344503684682" origin_y="-0.000480179325965335"
+        origin_z="-0.0080940119068153"
+        ixx="1e-6" ixy="0.0" ixz="0.0"
+        iyy="1e-6" iyz="0.0" izz="1e-6"
+        color_r="1.0" color_g="1.0" color_b="1.0" color_a="1" />
+    <gazebo reference="sensor_imu">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <!-- Define Sung Components -->
+    <!-- <xacro:sung_base x="-0.00061051" y="0" z="0.104" roll="0" pitch="0" yaw="0" />
+    <gazebo reference="de_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <xacro:sung_link name="1_link" parent="de_link"
+        x="-0.001338" y="-0.0057253" z="0.025" roll="0" pitch="0" yaw="0"
+        mass="0.09842"
+        origin_x="0.002182" origin_y="0.0093368" origin_z="0.020798"
+        ixx="6.5924E-05" ixy="-1.4202E-06" ixz="6.6287E-08"
+        iyy="6.0179E-05" iyz="2.8365E-07" izz="5.423E-05"
+        color_r="0.5" color_g="0.5" color_b="0.5" color_a="1"
+        limit_lower="-3.14" limit_upper="3.14" limit_effort="10" limit_velocity="1" />
+    <gazebo reference="1_link">
+        <material>Gazebo/Gray</material>
+    </gazebo>
+
+    <xacro:sung_link name="2_link" parent="1_link"
+        x="0.0064582" y="0.027635" z="0.02" roll="1.5708" pitch="0" yaw="-0.22958"
+        mass="0.53988"
+        origin_x="-0.024115" origin_y="0.076424" origin_z="0.0225"
+        ixx="0.0048113" ixy="-0.0024174" ixz="2.1684E-19"
+        iyy="0.0017825" iyz="1.8449E-19" izz="0.0062046"
+        color_r="0.8" color_g="0.8" color_b="0.0" color_a="1"
+        limit_lower="-.57" limit_upper="0" limit_effort="10" limit_velocity="1" />
+    <gazebo reference="2_link">
+        <material>Gazebo/DarkYellow</material>
+    </gazebo> -->
+
+    <!-- Define Plugins -->
+    <xacro:gazebo_ros_control_plugin namespace="omni_car" />
+
+    <xacro:lidar_plugin link_name="sensor_lidar" namespace="" topic_name="scan"
+        update_rate="5" samples="360" min_angle="-3.14159274" max_angle="3.14159274" max_range="5" />
+
+    <xacro:camera_plugin link_name="sensor_cam" namespace="omni_car" camera_name="camera1"
+        image_topic="image_raw" update_rate="30.0" fov="2.0944" width="640" height="480"
+        near_clip="0.1" far_clip="50.0" />
+
+    <xacro:imu_plugin namespace="omni_car" link_name="base_link" topic_name="imu/data"
+        update_rate="20.0" />
+
+    <!-- Define Transmissions -->
+    <!-- For Sung Joints -->
+    <!-- <xacro:sung_transmission joint_name="joint_1_link" />
+    <xacro:sung_transmission joint_name="joint_2_link" /> -->
+
+    <!-- For Wheel Joints -->
+    <xacro:wheel_transmission name="front_left" />
+    <xacro:wheel_transmission name="front_right" />
+    <xacro:wheel_transmission name="rear_left" />
+    <xacro:wheel_transmission name="rear_right" />
+</robot>

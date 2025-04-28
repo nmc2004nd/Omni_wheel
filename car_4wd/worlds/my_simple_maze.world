@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="simple_world">
+    
+    <!-- Use default physics and sky -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Add walls -->
+
+    <!-- Wall 1: Ngang trên cùng -->
+    <model name="wall1">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>10 0.2 2.5</size> <!-- Dài 10m, rộng 0.2m, cao 2.5m -->
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>10 0.2 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <pose>0 4.9 1.25 0 0 0</pose> <!-- Đặt sát mép trên -->
+      </link>
+    </model>
+
+    <!-- Wall 2: Dọc trái -->
+    <model name="wall2">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.2 10 2.5</size> <!-- Dài 10m, rộng 0.2m -->
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 10 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <pose>-4.9 0 1.25 0 0 0</pose> <!-- Sát mép trái -->
+      </link>
+    </model>
+
+    <!-- Wall 3: Vách chắn giữa -->
+    <model name="wall3">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.2 6 2.5</size> <!-- Dài 6m -->
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 6 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/White</name>
+            </script>
+          </material>
+        </visual>
+        <pose>0 2 1.25 0 0 0</pose> <!-- Một bức chắn giữa, để hở lối đi 2m -->
+      </link>
+    </model>
+
+    <!-- Wall 4: Một bức chắn phụ tạo hẻm -->
+    <model name="wall4">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>4 0.2 2.5</size> <!-- Dài 4m -->
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>4 0.2 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/White</name>
+            </script>
+          </material>
+        </visual>
+        <pose>-2 0 1.25 0 0 0</pose> <!-- Nằm ngang tạo thêm lối nhỏ -->
+      </link>
+    </model>
+
+  </world>
+</sdf>

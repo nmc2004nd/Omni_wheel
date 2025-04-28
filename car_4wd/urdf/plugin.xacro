@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Macro for gazebo_ros_control Plugin -->
+    <xacro:macro name="gazebo_ros_control_plugin" params="namespace">
+        <gazebo>
+            <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+                <robotNamespace>/${namespace}</robotNamespace>
+                <publish_tf>false</publish_tf>
+            </plugin>
+        </gazebo>
+        <!-- <gazebo>
+        <plugin name="planar_move" filename="libgazebo_ros_planar_move.so">
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
+            <publishOdomTF>true</publishOdomTF>
+            <updateRate>50.0</updateRate>
+        </plugin>
+        </gazebo> -->
+    </xacro:macro>
+
+    <!-- Macro for Hokuyo LiDAR Plugin -->
+    <xacro:macro name="lidar_plugin" params="link_name namespace topic_name update_rate samples min_angle max_angle max_range">
+        <gazebo reference="${link_name}">
+            <sensor type="ray" name="laser_scan_sensor">
+                <!-- <pose>0 0 0 0 0 0</pose> -->
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+                <update_rate>${update_rate}</update_rate>
+                <ray>
+                    <scan>
+                        <horizontal>
+                            <samples>${samples}</samples>
+                            <resolution>1</resolution>
+                            <min_angle>${min_angle}</min_angle>
+                            <max_angle>${max_angle}</max_angle>
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.12</min>
+                        <max>${max_range}</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </ray>
+                <plugin name="laser_controller" filename="libgazebo_ros_laser.so">
+                    <topicName>/${namespace}/${topic_name}</topicName>
+                    <frameName>${link_name}</frameName>
+                </plugin>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+    <!-- Macro for Camera Plugin -->
+    <xacro:macro name="camera_plugin" params="link_name namespace camera_name image_topic update_rate fov width height near_clip far_clip">
+        <gazebo reference="${link_name}">
+            <sensor type="camera" name="${camera_name}">
+                <pose>0 0 0 0 0 0</pose>
+                <visualize>true</visualize>
+                <update_rate>${update_rate}</update_rate>
+                <camera name="head">
+                    <horizontal_fov>${fov}</horizontal_fov>
+                    <image>
+                        <width>${width}</width>
+                        <height>${height}</height>
+                        <format>R8G8B8</format>
+                        <compression>jpeg</compression>
+                    </image>
+                    <clip>
+                        <near>${near_clip}</near>
+                        <far>${far_clip}</far>
+                    </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
+                    <lens>
+                        <type>stereographic</type>
+                        <scale_to_hfov>true</scale_to_hfov>
+                        <cutoff_angle>1.5707</cutoff_angle>
+                        <env_texture_size>512</env_texture_size>
+                    </lens>
+                </camera>
+                <plugin name="gazebo_ros_camera_controller" filename="libgazebo_ros_camera.so">
+                    <alwaysOn>true</alwaysOn>
+                    <updateRate>${update_rate}</updateRate>
+                    <cameraName>/${namespace}/${camera_name}</cameraName>
+                    <imageTopicName>${image_topic}</imageTopicName>
+                    <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                    <frameName>${link_name}</frameName>
+                    <hackBaseline>0.07</hackBaseline>
+                    <distortionK1>0.1</distortionK1>
+                    <distortionK2>0.2</distortionK2>
+                    <distortionK3>0.0</distortionK3>
+                    <distortionT1>0.03</distortionT1>
+                    <distortionT2>0.0</distortionT2>
+                </plugin>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+    <!-- Macro for imu Plugin -->
+    <xacro:macro name="imu_plugin" params="namespace link_name topic_name update_rate">
+        <gazebo reference="${link_name}">
+          <sensor name="${link_name}_imu" type="imu">
+            <always_on>true</always_on>
+            <update_rate>${update_rate}</update_rate>
+            <topic>/${namespace}/${topic_name}</topic>
+            <plugin name="${link_name}_imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+              <topicName>/${namespace}/${topic_name}</topicName>
+              <bodyName>${link_name}</bodyName>
+              <frameName>${link_name}</frameName>
+              <updateRate>${update_rate}</updateRate>
+              <gaussianNoise>0.01</gaussianNoise>
+              <xyzOffset>0 0 0</xyzOffset>
+              <rpyOffset>0 0 0</rpyOffset>
+            </plugin>
+          </sensor>
+        </gazebo>
+      </xacro:macro>
+</robot>
